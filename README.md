@@ -19,7 +19,7 @@ Este é um projeto demonstrativo. As pastas descrevem etapas e contextos da evol
 | Pasta | Contexto |
 | --- | --- |
 | [`legacy/`](./legacy/README.md) | Aplicação Laravel legada usada como ponto de partida. |
-| [`middle-term/`](./middle%20term/README.md) | Etapa de coexistência entre o legado e funcionalidades novas no mesmo projeto. |
+| [`middle-term/`](./middle-term/README.md) | Etapa de coexistência entre o legado e funcionalidades novas no mesmo projeto. |
 | [`new/`](./new/README.md) | Direção da arquitetura nova: backend Node.js e frontends Angular e React organizados como micro-frontends. |
 
 ## Visão da evolução
