@@ -1,33 +1,26 @@
-# Aplicação legada
+# Banco Vermelho: aplicação legada
 
-Esta pasta contém a aplicação Laravel legada usada como ponto de partida para o projeto de demonstração de modernização gradual. A aplicação é um site de publicação social chamado **Conduit**, construído com Laravel e HTMX e baseado na especificação [RealWorld](https://github.com/gothinkster/realworld).
+Aplicação interna fictícia de um banco, criada para demonstrar a modernização gradual de um frontend Angular 7. Não há backend, autenticação, contas reais ou operações bancárias: todos os dados estão em memória e são demonstrativos.
 
-## Créditos e origem
+## Executar
 
-Este projeto foi clonado de [agmadt/realworld-laravel-htmx](https://github.com/agmadt/realworld-laravel-htmx). Os créditos pela implementação original de Laravel + HTMX pertencem aos autores e contribuidores do repositório de origem. Esta cópia é utilizada como base para o contexto de portfólio deste repositório; a proposta de modernização incremental é o objetivo deste projeto demonstrativo.
-
-O conceito e a especificação **RealWorld** são mantidos pelo projeto [gothinkster/realworld](https://github.com/gothinkster/realworld).
-
-## Sobre a aplicação
-
-Conduit é uma aplicação de publicação social, semelhante a um clone do Medium. Ela oferece funcionalidades como cadastro e autenticação, artigos, comentários, perfis e favoritos.
-
-## Instalação
-
-Execute os comandos a partir desta pasta:
-
-1. Instale as dependências com `composer install`.
-2. Copie `.env.example` para `.env` (no PowerShell, use `Copy-Item .env.example .env`; em shells Unix, use `cp .env.example .env`).
-3. Execute os comandos restantes:
+Use Node.js 10.24.1 e npm 6.14.12, versões compatíveis com o Angular CLI 7. O projeto usa dependências antigas e sem suporte; execute-o somente em ambiente local, sem dados reais.
 
 ```sh
-php artisan key:generate
-php artisan migrate:fresh --seed
-php artisan serve
+npm ci
+npm start
 ```
 
-SQLite é suficiente para executar a aplicação localmente. Para entrar com a conta de demonstração, use `test@email.com` com a senha `secret`; também é possível criar uma conta pela interface.
+Execute os comandos dentro de `legacy/` e acesse `http://127.0.0.1:4200`. Para compilar, use `npm run build`. Para executar os testes, instale o Google Chrome e use `npm test`; configure `CHROME_BIN` se o Karma não encontrar o navegador.
 
-## Papel no projeto
+## Estrutura
 
-O legado permanece como referência funcional para as etapas seguintes. A intenção é que páginas e funcionalidades possam ser migradas gradualmente, mantendo outras no Laravel durante a transição. Veja o [README principal](../README.md), o contexto da [etapa intermediária](../middle%20term/README.md) e a visão da [arquitetura nova](../new/README.md).
+- As rotas `/inicio`, `/contas`, `/movimentacoes` e `/investimentos` usam o mesmo componente de página `LayoutComponent`.
+- Cada rota possui um resolver baseado na interface `Resolve` do Angular 7. Ele fornece os dados e a lista de blocos para o layout antes da navegação. Esse padrão de classes está obsoleto nas versões atuais do Angular, mas foi mantido aqui para representar o legado.
+- Os resolvers simulam uma chamada de três segundos. Durante a espera, a navegação fica bloqueada: a página anterior permanece visível ou, no primeiro acesso, o conteúdo ainda não aparece. Não há chamada de rede.
+- O layout observa os dados da rota e carrega componentes de card, tabela, filtro e gráfico dinamicamente por `ComponentFactoryResolver`, usando `entryComponents`, como em aplicações Angular 7.
+- `PageContentService` contém os dados fictícios. Os filtros atuam somente nas tabelas em memória; não alteram nem persistem dados.
+
+## Modernização desejada
+
+A empresa deseja recriar o sistema em módulos, não substituí-lo de uma vez. A intenção é migrar uma capacidade por vez, como contas ou investimentos, enquanto as demais permanecem no legado. A [etapa intermediária](../middle-term/README.md) descreve a coexistência pretendida, e a [arquitetura nova](../new/README.md) apresenta a direção futura. A integração e o roteamento entre aplicações ainda não foram implementados.

@@ -2,7 +2,7 @@
 
 Esta pasta representa a direção-alvo da modernização: um backend em Node.js e um frontend composto por aplicações Angular e React, organizadas como micro-frontends.
 
-A separação entre Angular e React tem propósito demonstrativo: representar equipes diferentes desenvolvendo e evoluindo partes distintas da interface. Durante a transição, essas experiências deverão coexistir com páginas que ainda permanecem no sistema Laravel legado.
+A separação entre Angular e React tem propósito demonstrativo: representar equipes diferentes desenvolvendo e evoluindo partes distintas da interface. Durante a transição, essas experiências deverão coexistir com páginas que ainda permanecem no sistema Angular 7 legado.
 
 ## Objetivos
 
@@ -16,4 +16,4 @@ A separação entre Angular e React tem propósito demonstrativo: representar eq
 
 Esta pasta documenta e abrigará os componentes da arquitetura nova. A organização interna, o framework específico do backend e a estratégia de integração entre micro-frontends serão definidos conforme a implementação avançar.
 
-Consulte o [README principal](../README.md) para a visão completa do projeto e o [contexto da etapa intermediária](../middle%20term/README.md) para a fase em que legado e novo coexistem.
+Consulte o [README principal](../README.md) para a visão completa do projeto e o [contexto da etapa intermediária](../middle-term/README.md) para a fase em que legado e novo coexistem.

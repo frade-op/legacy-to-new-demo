@@ -2,7 +2,7 @@
 
 Este repositório é um projeto de portfólio para demonstrar a evolução gradual de uma aplicação legada, sem exigir a substituição de todo o sistema de uma só vez.
 
-O cenário parte de uma aplicação existente em Laravel e explora uma migração incremental para um backend em Node.js e interfaces modernas em React e Angular. A ideia é mostrar como partes novas e antigas podem coexistir durante a transição, incluindo uma arquitetura de micro-frontends que represente páginas mantidas por equipes diferentes.
+O cenário parte do Banco Vermelho, uma aplicação interna fictícia em Angular 7, e explora uma migração incremental para um backend em Node.js e interfaces modernas em React e Angular. A ideia é mostrar como partes novas e antigas podem coexistir durante a transição, incluindo uma arquitetura de micro-frontends que represente páginas mantidas por equipes diferentes.
 
 ## Objetivos
 
@@ -18,13 +18,13 @@ Este é um projeto demonstrativo. As pastas descrevem etapas e contextos da evol
 
 | Pasta | Contexto |
 | --- | --- |
-| [`legacy/`](./legacy/README.md) | Aplicação Laravel legada usada como ponto de partida. |
+| [`legacy/`](./legacy/README.md) | Aplicação Angular 7 legada, com dados fictícios, usada como ponto de partida. |
 | [`middle-term/`](./middle-term/README.md) | Etapa de coexistência entre o legado e funcionalidades novas no mesmo projeto. |
 | [`new/`](./new/README.md) | Direção da arquitetura nova: backend Node.js e frontends Angular e React organizados como micro-frontends. |
 
 ## Visão da evolução
 
-1. **Legacy:** compreender e manter a aplicação Laravel existente.
+1. **Legacy:** compreender e manter a aplicação Angular 7 existente.
 2. **Middle-term:** introduzir partes novas sem remover imediatamente as equivalentes legadas.
 3. **New:** desenvolver a arquitetura-alvo com Node.js, Angular, React e micro-frontends.
 
