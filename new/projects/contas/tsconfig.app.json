@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": []
+  },
+  "files": ["src/app/accounts.page.ts"],
+  "include": ["src/**/*.d.ts"]
+}

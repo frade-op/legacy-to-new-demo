@@ -44,3 +44,5 @@ Execute `npm run build` em cada aplicação com sua respectiva versão do Node. 
 - Depois de compilar as duas aplicações, execute `npm run test:e2e` em `modern/`, com Node 24 e Google Chrome instalado. O teste inicia a prévia na porta 4209 e verifica navegação, filtros e recarregamento entre as versões.
 
 O projeto demonstra coexistência, não uma integração de sessão ou autenticação. Para migrar outra página, implemente-a no frontend moderno e altere os links e o roteamento; para reverter, direcione a URL novamente à aplicação legada. Não existe persistência nem dados a migrar.
+
+Na [etapa nova](../new/README.md), as quatro páginas foram recriadas em Angular 22 e usam Module Federation para Vite com runtime compartilhado. A integração desta etapa intermediária continua sendo feita por roteamento entre aplicações independentes.

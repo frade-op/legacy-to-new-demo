@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "projects": {
+    "banco-roxo": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "test-build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "index": "index.html",
+            "tsConfig": "tsconfig.app.json",
+            "styles": ["src/styles.css"]
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": { "buildTarget": "banco-roxo:test-build" }
+        }
+      }
+    }
+  }
+}

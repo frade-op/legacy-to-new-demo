@@ -1,0 +1,47 @@
+{
+  "name": "banco-roxo",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "ng": "ng",
+    "start": "node server.mjs",
+    "dev": "concurrently --kill-others \"node server.mjs --port=4205\" \"vite --host 127.0.0.1 --port 4200 --strictPort\"",
+    "build": "npm run build:shell && npm run build:inicio && npm run build:contas && npm run build:movimentacoes && npm run build:investimentos",
+    "build:shell": "vite build --mode shell",
+    "build:inicio": "vite build --mode inicio",
+    "build:contas": "vite build --mode contas",
+    "build:movimentacoes": "vite build --mode movimentacoes",
+    "build:investimentos": "vite build --mode investimentos",
+    "typecheck": "ngc --noEmit -p tsconfig.app.json && ngc --noEmit -p projects/inicio/tsconfig.app.json && ngc --noEmit -p projects/contas/tsconfig.app.json && ngc --noEmit -p projects/movimentacoes/tsconfig.app.json && ngc --noEmit -p projects/investimentos/tsconfig.app.json",
+    "test": "ng test banco-roxo --watch=false",
+    "test:e2e": "playwright test"
+  },
+  "private": true,
+  "packageManager": "npm@11.21.2",
+  "dependencies": {
+    "@angular/common": "^22.2.0",
+    "@angular/compiler": "^22.2.0",
+    "@angular/core": "^22.2.0",
+    "@angular/forms": "^22.2.0",
+    "@angular/platform-browser": "^22.2.0",
+    "@angular/router": "^22.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.2.6",
+    "@angular/cli": "^22.2.6",
+    "@angular/compiler-cli": "^22.2.0",
+    "@analogjs/vite-plugin-angular": "^2.9.6",
+    "@module-federation/vite": "^1.23.11",
+    "@playwright/test": "^1.56.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "concurrently": "^9.2.1",
+    "jsdom": "^30.0.0",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.1.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^5.0.0"
+  }
+}

@@ -1,19 +1,49 @@
-# Arquitetura nova
+# Banco Roxo: arquitetura nova
 
-Esta pasta representa a direção-alvo da modernização: um backend em Node.js e um frontend composto por aplicações Angular e React, organizadas como micro-frontends.
+As quatro páginas do Banco Roxo foram recriadas em Angular 22 como microfrontends carregados pelo shell com **Module Federation para Vite**. Os dados são fictícios; não há backend, autenticação nem persistência.
 
-A separação entre Angular e React tem propósito demonstrativo: representar equipes diferentes desenvolvendo e evoluindo partes distintas da interface. Durante a transição, essas experiências deverão coexistir com páginas que ainda permanecem no sistema Angular 7 legado.
+| Rota | Remoto federado | Conteúdo |
+| --- | --- | --- |
+| `/inicio` | `inicio` | Visão geral |
+| `/contas` | `contas` | Carteira e filtro |
+| `/movimentacoes` | `movimentacoes` | Histórico e filtro |
+| `/investimentos` | `investimentos` | Carteira e gráfico |
 
-## Objetivos
+O workspace está na raiz de `new/`: o shell está em `src/` e cada página em `projects/<nome>/`. A configuração compartilhada em `vite.config.ts` compila cinco builds independentes usando `@analogjs/vite-plugin-angular` e `@module-federation/vite`, sem Webpack. Cada remoto expõe `./Page`; o shell carrega seu `remoteEntry.js` sob demanda, sem recarregar a aplicação.
 
-- Explorar um backend desenvolvido em Node.js.
-- Dividir a interface entre Angular e React.
-- Usar micro-frontends para compor partes independentes da experiência.
-- Demonstrar como páginas novas e legadas podem conviver durante uma migração.
-- Deixar claro que a adoção da arquitetura nova não implica substituir todo o legado de uma vez.
+Angular, RxJS e tslib são configurados como singletons com validação estrita de versão. O shell também verifica se o remoto usa a mesma instância de `@angular/core`. Falha de carregamento ou incompatibilidade exibe uma mensagem e uma opção de recarregar. Os projetos devem ser publicados com versões compatíveis das dependências compartilhadas.
 
-## Escopo da pasta
+Componentes visuais e dados fictícios em `src/app/` são código-fonte compartilhado no monorepositório e incorporado aos builds que os utilizam; não são um serviço, API ou pacote remoto. Tailwind CSS é processado pelo PostCSS. Os componentes são standalone e usam signals e control flow do Angular.
 
-Esta pasta documenta e abrigará os componentes da arquitetura nova. A organização interna, o framework específico do backend e a estratégia de integração definitiva entre micro-frontends serão definidos conforme a implementação avançar. A etapa intermediária já demonstra a coexistência por roteamento entre aplicações independentes.
+## Executar
 
-Consulte o [README principal](../README.md) para a visão completa do projeto e o [contexto da etapa intermediária](../middle-term/README.md) para a fase em que legado e novo coexistem.
+Requisitos: Node.js 24.15.0 ou outra versão compatível com Angular 22, npm 11 e Google Chrome para o teste de navegador.
+
+```sh
+cd new
+npm ci
+npm run build
+npm start
+```
+
+Acesse `http://127.0.0.1:4200`. O servidor incluso serve os builds como prévia local, não é infraestrutura de produção.
+
+Para desenvolver o shell com Vite, após compilar os projetos execute `npm run dev`. O Vite fica na porta 4200 e encaminha `/remotes/` à prévia na porta 4205. Os remotos são servidos a partir de seus builds: após alterá-los, execute novamente o respectivo comando `npm run build:<nome>` e recarregue a página. O shell tem o servidor de desenvolvimento Vite; os remotos não têm HMR nessa configuração.
+
+Cada projeto também pode ser compilado separadamente: `npm run build:shell`, `npm run build:inicio`, `npm run build:contas`, `npm run build:movimentacoes` e `npm run build:investimentos`. Os remotos são carregados em `/remotes/<nome>/remoteEntry.js`. Para publicação independente, configure um proxy ou servidor estático que encaminhe esses caminhos e os demais arquivos de cada remoto aos respectivos builds, mantendo-os acessíveis ao navegador.
+
+## Testes
+
+Após compilar os cinco projetos:
+
+```sh
+npm run typecheck
+npm test
+npm run test:e2e
+```
+
+O typecheck usa o compilador Angular com templates estritos para o shell e os quatro remotos. O E2E inicia uma prévia na porta 4219 e verifica navegação, carregamento sob demanda, dados, filtros, compartilhamento do runtime, falha e recuperação de remoto, além de rota inexistente e tela estreita. Usa o Chrome instalado localmente.
+
+Nos builds verificados em Windows, o plugin de federação emite `moduleParseIdleTimeout` para os remotos, avisando que a análise de dependências pode estar incompleta. Os builds e testes de navegador passaram, mas o aviso deve ser acompanhado ao atualizar o plugin ou as dependências. O Vite também alerta sobre chunks acima de 500 kB; os bundles ainda não foram otimizados.
+
+Consulte a [etapa intermediária](../middle-term/README.md) para a coexistência entre Angular 7 e Angular 22 e o [README principal](../README.md) para a visão completa.
