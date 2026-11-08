@@ -23,4 +23,4 @@ Execute os comandos dentro de `legacy/` e acesse `http://127.0.0.1:4200`. Para c
 
 ## Modernização desejada
 
-A empresa deseja recriar o sistema em módulos, não substituí-lo de uma vez. A intenção é migrar uma capacidade por vez, como contas ou investimentos, enquanto as demais permanecem no legado. A [etapa intermediária](../middle-term/README.md) descreve a coexistência pretendida, e a [arquitetura nova](../new/README.md) apresenta a direção futura. A integração e o roteamento entre aplicações ainda não foram implementados.
+A empresa deseja recriar o sistema em módulos, não substituí-lo de uma vez. A intenção é migrar uma capacidade por vez, como contas ou investimentos, enquanto as demais permanecem no legado. A [etapa intermediária](../middle-term/README.md) demonstra a coexistência por roteamento entre aplicações independentes, e a [arquitetura nova](../new/README.md) apresenta a direção futura.

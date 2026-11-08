@@ -1,18 +1,46 @@
-# Etapa intermediária
+# Banco Roxo: modernização gradual
 
-Esta pasta representa a fase de coexistência da modernização. O sistema legado e as partes novas devem funcionar no mesmo projeto, permitindo uma migração gradual sem exigir que todas as páginas sejam reescritas de uma só vez.
+Esta etapa reúne duas aplicações independentes, com a mesma identidade visual e dados fictícios:
 
-## Objetivos desta etapa
+| Caminho | Aplicação | Páginas |
+| --- | --- | --- |
+| `/inicio`, `/contas` | Angular 22 | Visão geral e contas reescritas |
+| `/legado/movimentacoes`, `/legado/investimentos` | Angular 7 | Páginas ainda não migradas |
 
-- Preservar as funcionalidades que ainda dependem do legado.
-- Introduzir novas páginas ou componentes aos poucos.
-- Permitir que usuários naveguem entre experiências legadas e novas durante a transição.
-- Tornar explícito o que já foi migrado e o que continua no Angular 7.
+O navegador troca de aplicação ao cruzar essa fronteira. O roteamento por URL integra os microfrontends sem compartilhar runtime nem usar iframe. A cópia em `legacy/` preserva o layout dinâmico, os resolvers e a demora simulada de três segundos. A cópia original em [`../legacy/`](../legacy/README.md) permanece Banco Vermelho.
 
-Esta fase ilustra uma abordagem incremental, próxima ao padrão Strangler Fig: novas funcionalidades podem assumir responsabilidades progressivamente, enquanto o sistema antigo continua disponível para o que ainda não foi migrado.
+Todos os dados são estáticos. Não há backend, autenticação ou operações bancárias. Não use dados reais. O Angular 7 e suas dependências estão fora de suporte.
 
-## Direção técnica
+## Desenvolvimento
 
-A intenção é integrar o legado Angular 7 às novas partes da aplicação e encaminhar cada experiência para a implementação apropriada. O mecanismo concreto de integração e roteamento será definido conforme a arquitetura evoluir; esta documentação não pressupõe que proxy, autenticação compartilhada ou comunicação entre micro-frontends já estejam implementados.
+São necessárias duas versões do Node e dois terminais:
 
-Consulte o [README principal](../README.md) para conhecer o escopo geral e o [contexto da arquitetura nova](../new/README.md).
+1. Com **Node 10.24.1 e npm 6**, no diretório `middle-term/legacy`:
+
+   ```sh
+   npm ci
+   npm start
+   ```
+
+2. Com **Node 24.15.0 ou mais recente compatível com Angular 22**, no diretório `middle-term/modern`:
+
+   ```sh
+   npm ci
+   npm start
+   ```
+
+3. Acesse `http://127.0.0.1:4200`. O servidor moderno encaminha `/legado/*` para o servidor Angular 7 na porta 4301. Ambos precisam estar em execução. Ao usar um gerenciador de versões global como nvm-windows, inicie o legado antes de trocar a versão do Node e iniciar o moderno.
+
+O Angular CLI usa Vite no servidor de desenvolvimento e esbuild no build de produção. Tailwind CSS é processado pelo PostCSS. Os estilos preservam as dimensões e o conteúdo do legado, alterando a identidade para roxo.
+
+## Build e prévia
+
+Execute `npm run build` em cada aplicação com sua respectiva versão do Node. Depois, com Node 24, execute `node server.mjs` em `middle-term/` e acesse `http://127.0.0.1:4200`. A prévia serve os dois builds sob a mesma origem; pare os servidores de desenvolvimento antes de iniciá-la. Para implantação real, o servidor estático ou proxy deve reproduzir o mesmo roteamento e disponibilizar os arquivos compilados de ambas as aplicações.
+
+## Testes
+
+- `npm test` em `modern/`, com Node 24.
+- `npm test` em `legacy/`, com Node 10 e Chrome instalado; configure `CHROME_BIN` caso necessário.
+- Depois de compilar as duas aplicações, execute `npm run test:e2e` em `modern/`, com Node 24 e Google Chrome instalado. O teste inicia a prévia na porta 4209 e verifica navegação, filtros e recarregamento entre as versões.
+
+O projeto demonstra coexistência, não uma integração de sessão ou autenticação. Para migrar outra página, implemente-a no frontend moderno e altere os links e o roteamento; para reverter, direcione a URL novamente à aplicação legada. Não existe persistência nem dados a migrar.

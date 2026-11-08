@@ -14,6 +14,6 @@ A separação entre Angular e React tem propósito demonstrativo: representar eq
 
 ## Escopo da pasta
 
-Esta pasta documenta e abrigará os componentes da arquitetura nova. A organização interna, o framework específico do backend e a estratégia de integração entre micro-frontends serão definidos conforme a implementação avançar.
+Esta pasta documenta e abrigará os componentes da arquitetura nova. A organização interna, o framework específico do backend e a estratégia de integração definitiva entre micro-frontends serão definidos conforme a implementação avançar. A etapa intermediária já demonstra a coexistência por roteamento entre aplicações independentes.
 
 Consulte o [README principal](../README.md) para a visão completa do projeto e o [contexto da etapa intermediária](../middle-term/README.md) para a fase em que legado e novo coexistem.

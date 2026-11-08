@@ -1,0 +1,17 @@
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" routerLink="/inicio"><span class="brand-mark">r</span><span>banco<br><strong>roxo</strong></span></a>
+    <p class="sidebar-label">ÁREA INTERNA</p>
+    <nav aria-label="Navegação principal">
+      <a routerLink="/inicio" routerLinkActive="active"><span class="nav-icon">◫</span> Visão geral</a>
+      <a routerLink="/contas" routerLinkActive="active"><span class="nav-icon">◎</span> Contas</a>
+      <a href="/legado/movimentacoes"><span class="nav-icon">⇄</span> Movimentações</a>
+      <a href="/legado/investimentos"><span class="nav-icon">▥</span> Investimentos</a>
+    </nav>
+    <div class="sidebar-footer">Banco Roxo<br><span>Ambiente de demonstração</span></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><span>Banco Roxo <span class="separator">/</span> Área interna</span><div class="profile"><span class="avatar">MC</span><span>Marina Costa<br><small>Gerente de relacionamento</small></span></div></header>
+    <router-outlet />
+  </div>
+</div>

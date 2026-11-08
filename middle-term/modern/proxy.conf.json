@@ -1,0 +1,11 @@
+{
+  "/legado/**": {
+    "target": "http://127.0.0.1:4301",
+    "secure": false
+  },
+  "/sockjs-node": {
+    "target": "http://127.0.0.1:4301",
+    "secure": false,
+    "ws": true
+  }
+}
