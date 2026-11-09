@@ -14,6 +14,8 @@ O cenário parte do Banco Vermelho, uma aplicação interna fictícia em Angular
 
 Este é um projeto demonstrativo. As pastas descrevem etapas e contextos da evolução; decisões e integrações podem ser detalhadas à medida que o projeto avançar.
 
+Para uma apresentação visual da jornada, abra a [página estática](./index.html) no navegador. Ela usa capturas reais das aplicações demonstrativas e não precisa de servidor ou instalação.
+
 ## Estrutura
 
 | Pasta | Contexto |

@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A jornada fictícia do Banco Vermelho ao Banco Roxo: modernização gradual e microfrontends.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <title>De vermelho a roxo — Uma jornada de modernização</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #211b2a;
+      --muted: #716a77;
+      --paper: #f7f5f2;
+      --purple: #6b35c9;
+      --dark: #20132d;
+      --line: #e4dfe5;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Segoe UI", Arial, sans-serif; line-height: 1.55; }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #ecae62; outline-offset: 4px; }
+    .wrap { width: min(1200px, calc(100% - 48px)); margin-inline: auto; }
+    .topbar { background: #1b1027; color: white; border-bottom: 1px solid #ffffff1a; }
+    .topbar-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; gap: 11px; align-items: center; text-decoration: none; font-weight: 700; font-size: 15px; letter-spacing: -.03em; }
+    .brand-mark { width: 30px; height: 30px; border: 1px solid #bca3d8; border-radius: 50%; display: grid; place-items: center; font-size: 14px; color: #decaf3; }
+    .topbar nav { display: flex; align-items: center; flex-wrap: wrap; gap: 30px; font-size: 13px; color: #d7cde0; }
+    .topbar nav a { text-decoration: none; transition: color .2s; }
+    .topbar nav a:hover { color: white; }
+    .topbar .nav-link { border: 1px solid #ffffff4d; border-radius: 99px; padding: 9px 16px; }
+    .hero { color: #fff; background: radial-gradient(ellipse at 75% 15%, #56327b 0, transparent 47%), linear-gradient(125deg, #1b1027, #321842 70%, #4a2457); overflow: hidden; }
+    .hero-inner { position: relative; padding: 90px 0 0; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .16em; font-weight: 700; font-size: 11px; }
+    .hero .eyebrow { color: #d4b8e9; }
+    .hero-copy { max-width: 760px; position: relative; z-index: 1; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 20px 0 22px; font-size: clamp(48px, 6.8vw, 88px); letter-spacing: -.065em; line-height: 1.02; font-weight: 650; }
+    h1 em { font-family: Georgia, serif; font-weight: 400; color: #d4b4f2; }
+    .hero-copy > p:not(.eyebrow) { max-width: 545px; color: #d8cde0; font-size: 17px; line-height: 1.7; }
+    .hero-actions { display: flex; gap: 23px; align-items: center; flex-wrap: wrap; margin-top: 32px; }
+    .button { display: inline-flex; gap: 16px; align-items: center; background: #fff; color: #24142c; border-radius: 6px; padding: 14px 19px; text-decoration: none; font-weight: 700; font-size: 13px; transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-3px); background: #eee3fb; }
+    .hero-note { color: #baadc4; font-size: 12px; }
+    .hero-bottom { margin-top: 72px; padding: 21px 0; border-top: 1px solid #ffffff29; display: flex; justify-content: space-between; gap: 20px; color: #c1b2ce; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .hero-orbit { position: absolute; width: 440px; height: 440px; right: 0; top: 44px; border: 1px solid #ffffff15; border-radius: 50%; pointer-events: none; }
+    .hero-orbit::before, .hero-orbit::after { content: ""; position: absolute; border: 1px solid #ffffff15; border-radius: 50%; inset: 45px; }
+    .hero-orbit::after { inset: 95px; background: radial-gradient(circle at 35% 35%, #bd7acd, #793c92 42%, #3b224a 75%); border: 0; box-shadow: 0 0 100px #a95ac52b; }
+    section { scroll-margin-top: 20px; }
+    .section { padding: 115px 0; }
+    .section-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 50px; }
+    .section-head .eyebrow, .eyebrow.purple { color: var(--purple); }
+    h2 { font-size: clamp(35px, 4vw, 56px); letter-spacing: -.055em; line-height: 1.12; font-weight: 650; margin-bottom: 0; }
+    .section-head > p { max-width: 480px; color: var(--muted); margin: 0 0 3px auto; font-size: 16px; }
+    .story-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+    .story-card { padding: 30px 28px 4px 0; }
+    .story-card + .story-card { padding-left: 28px; border-left: 1px solid var(--line); }
+    .number { display: inline-flex; width: 38px; height: 38px; border-radius: 50%; align-items: center; justify-content: center; background: #ebe4ef; color: #633d7f; font-size: 12px; font-weight: 700; }
+    .story-card h3 { font-size: 19px; letter-spacing: -.03em; margin: 24px 0 10px; }
+    .story-card p, .stage-text p, .team p { color: var(--muted); font-size: 14px; }
+    .showcase { background: #eeeaf1; }
+    .showcase-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 35px; }
+    .showcase-head p { color: var(--muted); max-width: 390px; margin: 0; font-size: 14px; }
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .screen-card { min-width: 0; background: #fff; border: 1px solid #e3dce6; border-radius: 10px; overflow: hidden; box-shadow: 0 18px 45px #3924490a; transition: transform .25s, box-shadow .25s; }
+    .screen-card:hover { transform: translateY(-5px); box-shadow: 0 24px 55px #39244920; }
+    .screen-label { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 20px 22px; }
+    .screen-label strong { display: block; font-size: 14px; }
+    .screen-label span { color: #89808d; font-size: 12px; }
+    .pill { border: 1px solid #e5dee8; border-radius: 99px; padding: 5px 10px; white-space: nowrap; }
+    a.pill { color: #694480; font-size: 12px; text-decoration: none; transition: background .2s, border-color .2s; }
+    a.pill:hover { background: #f3ebfa; border-color: #bda7cd; }
+    .screen-image { background: #eae7ed; overflow: hidden; border-top: 1px solid #eee8f0; }
+    .screen-image img { display: block; width: 100%; height: auto; transition: transform .5s; }
+    .screen-card:hover img { transform: scale(1.025); }
+    .screen-caption { padding: 15px 22px 19px; color: var(--muted); font-size: 13px; margin: 0; }
+    .journey { background: #fff; }
+    .stages { border-top: 1px solid var(--line); }
+    .stage { display: grid; grid-template-columns: 100px 1fr 1.1fr; gap: 32px; align-items: start; padding: 35px 0; border-bottom: 1px solid var(--line); }
+    .stage-index { color: #aaa1ac; font-family: Georgia, serif; font-size: 30px; }
+    .stage-text .eyebrow { color: #8c7898; margin-bottom: 10px; }
+    .stage-text h3 { font-size: 24px; letter-spacing: -.04em; margin-bottom: 10px; }
+    .stage-text p { max-width: 350px; margin: 0; }
+    .project-link { display: inline-block; margin-top: 16px; color: #6939a2; font-size: 13px; font-weight: 700; text-decoration: none; }
+    .project-link:hover { text-decoration: underline; }
+    .stage-detail { border-left: 2px solid #e9e1eb; padding: 2px 0 2px 22px; color: #635b69; font-size: 14px; }
+    .stage-detail strong { color: var(--ink); }
+    .stage-detail p:last-child { margin-bottom: 0; }
+    .transition-preview { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 55px; margin-top: 70px; }
+    .transition-preview h3 { font-size: 30px; line-height: 1.15; letter-spacing: -.04em; margin-bottom: 16px; }
+    .transition-preview p { color: var(--muted); font-size: 15px; }
+    .transition-preview .screen-card { transform: rotate(-1deg); }
+    .transition-preview .screen-card:hover { transform: rotate(0) translateY(-4px); }
+    .teams { background: #261631; color: white; }
+    .teams .section-head > p { color: #c2b4cb; }
+    .teams .eyebrow { color: #c7a6eb; }
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid #ffffff24; border-radius: 10px; overflow: hidden; }
+    .team { min-height: 195px; padding: 25px; transition: background .25s; }
+    .team + .team { border-left: 1px solid #ffffff24; }
+    .team:hover { background: #ffffff0d; }
+    .team-icon { display: grid; place-items: center; width: 37px; height: 37px; background: #ffffff12; color: #e0c3f6; border: 1px solid #ffffff24; border-radius: 9px; font-size: 19px; }
+    .team h3 { margin: 22px 0 7px; font-size: 16px; }
+    .team p { color: #c2b4cb; margin: 0; }
+    .team-note { margin: 26px 0 0; color: #b7a5c2; font-size: 13px; }
+    .outcome { padding: 100px 0; }
+    .outcome-box { display: flex; justify-content: space-between; align-items: center; gap: 40px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 46px 0; }
+    .outcome-box h2 { max-width: 650px; }
+    .outcome-box p { max-width: 400px; margin: 15px 0 0; color: var(--muted); font-size: 15px; }
+    .button.dark { background: #2b173a; color: white; white-space: nowrap; }
+    .button.dark:hover { background: #633d7f; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; color: #8a818e; font-size: 12px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .reveal { opacity: 1; transform: none; transition: opacity .65s ease, transform .65s ease; }
+    .js-motion .reveal:not(.visible) { opacity: 0; transform: translateY(18px); }
+    @media (max-width: 800px) {
+      .hero-orbit { opacity: .35; right: -200px; }
+      .hero-inner { padding-top: 75px; }
+      .section { padding: 80px 0; }
+      .section-head, .transition-preview { grid-template-columns: 1fr; gap: 25px; }
+      .section-head > p { margin-left: 0; }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-card, .story-card + .story-card { border-left: 0; border-bottom: 1px solid var(--line); padding: 25px 0; }
+      .story-card h3 { margin-top: 14px; }
+      .stage { grid-template-columns: 55px 1fr; gap: 20px; }
+      .stage-detail { grid-column: 2; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .team:nth-child(3) { border-left: 0; }
+      .team:nth-child(n+3) { border-top: 1px solid #ffffff24; }
+      .outcome-box { align-items: start; flex-direction: column; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 32px, 1200px); }
+      .topbar-inner { align-items: flex-start; flex-direction: column; padding: 18px 0; gap: 16px; }
+      .topbar nav { gap: 18px; }
+      .topbar .nav-link { padding: 6px 10px; }
+      .hero-inner { padding-top: 58px; }
+      .hero-bottom { margin-top: 55px; font-size: 10px; }
+      .comparison { grid-template-columns: 1fr; }
+      .showcase-head { display: block; }
+      .showcase-head p { margin-top: 16px; }
+      .team-grid { grid-template-columns: 1fr; }
+      .team { min-height: 0; }
+      .team + .team { border-left: 0; border-top: 1px solid #ffffff24; }
+      .outcome { padding: 70px 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .js-motion .reveal:not(.visible) { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">↗</span> uma jornada de evolução</a>
+      <nav aria-label="Navegação da página">
+        <a href="#historia">A história</a>
+        <a href="#jornada">A migração</a>
+        <a class="nav-link" href="#arquitetura">O futuro <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="wrap hero-inner">
+        <div class="hero-orbit" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">Um estudo de caso fictício · Banco Vermelho → Banco Roxo</p>
+          <h1>O futuro não precisa começar <em>do zero.</em></h1>
+          <p>Uma nova identidade. Uma nova arquitetura. E uma transformação feita passo a passo, sem deixar o banco parar.</p>
+          <div class="hero-actions">
+            <a class="button" href="#historia">Conheça a jornada <span aria-hidden="true">↘</span></a>
+            <span class="hero-note">Modernização gradual, do legado ao novo</span>
+          </div>
+        </div>
+        <div class="hero-bottom"><span>Uma história de transformação</span><span>01 — 03</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="historia">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">01 / O contexto</p><h2>Um banco pronto<br>para ir além.</h2></div>
+          <p>O Banco Vermelho queria crescer. Para acompanhar novas ideias, precisava de uma identidade renovada e de uma plataforma capaz de evoluir junto com seus times.</p>
+        </div>
+        <div class="story-grid">
+          <article class="story-card reveal"><span class="number">01</span><h3>Uma base que funciona</h3><p>O sistema interno legado atendia às operações do banco, mas concentrava as páginas em um mesmo layout e dependia de resolvers que atrasavam a navegação.</p></article>
+          <article class="story-card reveal"><span class="number">02</span><h3>Uma ambição maior</h3><p>O Banco Vermelho passou por uma repaginação e se tornou Banco Roxo. A mudança também abriu espaço para expandir as ferramentas da empresa.</p></article>
+          <article class="story-card reveal"><span class="number">03</span><h3>Uma mudança responsável</h3><p>Em vez de substituir tudo de uma vez, a empresa escolheu migrar por etapas, preservando as ferramentas existentes enquanto as novas ficavam prontas.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section showcase" aria-labelledby="visual-title">
+      <div class="wrap">
+        <div class="showcase-head reveal">
+          <div><p class="eyebrow purple">Antes & depois</p><h2 id="visual-title">Uma nova cor.<br>A mesma essência.</h2></div>
+          <p>Capturas reais das aplicações demonstrativas: a experiência conhecida ganha uma nova identidade e uma nova base tecnológica.</p>
+        </div>
+        <div class="comparison">
+          <article class="screen-card reveal">
+            <div class="screen-label"><div><strong>Banco Vermelho</strong><span>O ponto de partida</span></div><a class="pill" href="https://github.com/frade-op/legacy-to-new-demo/tree/main/legacy" target="_blank" rel="noopener noreferrer">Legado · Angular 7 ↗</a></div>
+            <div class="screen-image"><img src="assets/screenshots/legado.png" alt="Tela inicial do sistema legado Banco Vermelho, com indicadores, gráfico e movimentações." width="1440" height="900" loading="lazy"></div>
+            <p class="screen-caption">Um sistema único, com páginas montadas dinamicamente por um layout compartilhado.</p>
+          </article>
+          <article class="screen-card reveal">
+            <div class="screen-label"><div><strong>Banco Roxo</strong><span>A experiência renovada</span></div><a class="pill" href="https://github.com/frade-op/legacy-to-new-demo/tree/main/new" target="_blank" rel="noopener noreferrer">Novo · Angular 22 ↗</a></div>
+            <div class="screen-image"><img src="assets/screenshots/novo.png" alt="Tela inicial do Banco Roxo, com a mesma estrutura e identidade visual roxa." width="1440" height="900" loading="lazy"></div>
+            <p class="screen-caption">Uma interface familiar, agora composta por páginas federadas e independentes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section journey" id="jornada">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">02 / A jornada</p><h2>Transformar sem<br>interromper.</h2></div>
+          <p>A migração acompanha o ritmo do negócio: cada etapa mantém o acesso às funcionalidades enquanto a próxima é construída.</p>
+        </div>
+        <div class="stages">
+          <article class="stage reveal">
+            <span class="stage-index">01</span>
+            <div class="stage-text"><p class="eyebrow">O ponto de partida</p><h3>Legado em operação</h3><p>O Banco Vermelho reúne quatro páginas em uma aplicação Angular 7.</p><a class="project-link" href="https://github.com/frade-op/legacy-to-new-demo/tree/main/legacy" target="_blank" rel="noopener noreferrer">Ver projeto legado no GitHub ↗</a></div>
+            <div class="stage-detail"><p><strong>Uma estrutura compartilhada.</strong> Um único layout monta as páginas e os resolvers simulam uma espera de três segundos antes de exibir os dados.</p></div>
+          </article>
+          <article class="stage reveal">
+            <span class="stage-index">02</span>
+            <div class="stage-text"><p class="eyebrow">A transição</p><h3>Convivência gradual</h3><p>O Banco Roxo chega primeiro à visão geral e às contas. As demais ferramentas continuam funcionando no legado.</p><a class="project-link" href="https://github.com/frade-op/legacy-to-new-demo/tree/main/middle-term" target="_blank" rel="noopener noreferrer">Ver projeto intermediário no GitHub ↗</a></div>
+            <div class="stage-detail"><p><strong>Duas aplicações, uma jornada.</strong> A navegação por URL conecta Angular 22 e Angular 7. Nesta etapa, cada aplicação mantém seu próprio runtime.</p></div>
+          </article>
+          <article class="stage reveal">
+            <span class="stage-index">03</span>
+            <div class="stage-text"><p class="eyebrow">A evolução</p><h3>Uma plataforma modular</h3><p>As quatro páginas são recriadas em Angular moderno e passam a ser carregadas como microfrontends.</p><a class="project-link" href="https://github.com/frade-op/legacy-to-new-demo/tree/main/new" target="_blank" rel="noopener noreferrer">Ver projeto novo no GitHub ↗</a></div>
+            <div class="stage-detail"><p><strong>Uma base para crescer.</strong> Module Federation com Vite permite compor os remotos no shell e compartilhar o runtime Angular compatível.</p></div>
+          </article>
+        </div>
+        <div class="transition-preview reveal">
+          <article class="screen-card">
+            <div class="screen-label"><div><strong>Durante a migração</strong><span>Movimentações no legado, já com a identidade roxa</span></div><a class="pill" href="https://github.com/frade-op/legacy-to-new-demo/tree/main/middle-term" target="_blank" rel="noopener noreferrer">Etapa intermediária ↗</a></div>
+            <div class="screen-image"><img src="assets/screenshots/transicao.png" alt="Página de movimentações do legado na etapa intermediária, usando a identidade do Banco Roxo." width="1440" height="900" loading="lazy"></div>
+          </article>
+          <div><p class="eyebrow purple">O melhor dos dois momentos</p><h3>O novo chega.<br>O que funciona fica.</h3><p>A identidade visual é renovada antes de toda a tecnologia ser substituída. Enquanto contas já vive no sistema moderno, movimentações e investimentos permanecem no legado até sua migração.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section teams" id="arquitetura">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">03 / A arquitetura</p><h2>Mais autonomia.<br>Mais possibilidades.</h2></div>
+          <p>Com microfrontends, cada time pode cuidar de uma ferramenta e evoluí-la de forma independente, dentro de uma experiência integrada.</p>
+        </div>
+        <div class="team-grid">
+          <article class="team reveal"><span class="team-icon" aria-hidden="true">◫</span><h3>Visão geral</h3><p>O panorama das operações, em um só lugar.</p></article>
+          <article class="team reveal"><span class="team-icon" aria-hidden="true">◎</span><h3>Contas</h3><p>A carteira de clientes e suas informações.</p></article>
+          <article class="team reveal"><span class="team-icon" aria-hidden="true">⇄</span><h3>Movimentações</h3><p>O acompanhamento das operações do banco.</p></article>
+          <article class="team reveal"><span class="team-icon" aria-hidden="true">▥</span><h3>Investimentos</h3><p>Uma visão clara da carteira de investimentos.</p></article>
+        </div>
+        <p class="team-note">Um shell conecta as ferramentas. Cada página é um remoto federado, carregado quando necessário.</p>
+      </div>
+    </section>
+
+    <section class="outcome">
+      <div class="wrap outcome-box reveal">
+        <div><p class="eyebrow purple">A transformação continua</p><h2>Novas possibilidades,<br>sem perder o caminho.</h2><p>Este exemplo é fictício e usa dados demonstrativos. Explore as decisões e os detalhes técnicos de cada etapa no repositório.</p></div>
+        <a class="button dark" href="https://github.com/frade-op/legacy-to-new-demo" target="_blank" rel="noopener noreferrer">Explorar o projeto <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap footer-inner"><span>Banco Vermelho → Banco Roxo</span><span>Uma demonstração de modernização gradual</span></div></footer>
+  <script>
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const elements = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => entry.target.classList.toggle('visible', entry.isIntersecting));
+      }, { threshold: 0.08 });
+      elements.forEach(element => observer.observe(element));
+      document.documentElement.classList.add('js-motion');
+    }
+  </script>
+</body>
+</html>
